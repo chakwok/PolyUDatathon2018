@@ -1,0 +1,11 @@
+1 The filename of PREDICT RESULT should be group_(team name).txt
+2 The file of PREDICT RESULT should be utf8 encoded
+3 A corresponding class is expected to predict for every instance, 7654 in total. Each line in PREDICT RESULT should be id(\t\t)class(\n)
+4 format_test.py
+  description	Groups can check if the format of their submissions is correct.
+  usage		put result txt in the same folder of format_test.py, run format_test.py yourfilename.txt
+5 Fill UBS_Result_Template with your ranking w.r.t catagory and city.
+
+**Important** 
+1. In the given weibo data, "id" = "sid" & "user_id" = "uid"
+2. To save your time, only the result for the 'Status_Data9_with_city_code.json' and 'Status_Data9_Comment_Data_with_city_code.json' will be used for ranking the interest within the cities and across the cities
