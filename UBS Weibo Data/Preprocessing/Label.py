@@ -150,7 +150,7 @@ def computeIdf(word):
 		for entry in data: 
 			#print(word)
 			#print(entry['text'])
-			if (re.search(word, entry['text']) != None):
+			if (re.search(word, json.dumps(entry['text'])) != None):
 				count += 1 
 
 	
