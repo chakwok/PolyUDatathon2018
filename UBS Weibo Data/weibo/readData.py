@@ -13,8 +13,8 @@ for i in range(1 ,9):
 			count+=1 
 		print("Number of Entries: {:d}".format(count))
 
-with open('Pretty_Data1.json', 'w') as o:
+with open('Oneline_Data1.json', 'w') as o:
 	o.write('[')
 	for entry in List:
-		o.write("{},\n".format(entry))
+		o.write("{}, ".format(entry))
 	o.write(']')
