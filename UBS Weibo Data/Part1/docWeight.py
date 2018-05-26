@@ -52,6 +52,7 @@ def getAllTrainingDataset():
 	
 	with open('combinedData.json', 'r') as g: 
 		data = json.loads(g.readline())
+		#print(len(data))
 		for entry in data: 
 			if (entry['id'] in trainingSids):
 				trainingData.append(entry)
@@ -128,3 +129,33 @@ def computeScore(text, category):
 
 calculateDocWeight()
 #print(computeScore(trainingData[0]['text'], 0))
+
+testingData = []
+appendedTestingData = [] 
+
+def getAllTestingDataset(): 
+	with open('combinedData.json', 'r') as g: 
+		data = json.loads(g.readline())
+		for entry in data: 
+			if (entry['id'] not in trainingSids):
+				testingData.append(entry)
+				appendedTestingData.append(entry['id'])
+
+getAllTestingDataset()
+#print(len(testingData))
+				
+
+def processForPrediction():
+	# {sid: [train_label cat, cat1's score, cat2's score... cat13's score]}
+	docDict = {}
+	for entry in testingData:
+		docDict[(entry['id'])] = []
+		for i in range(0, 13): 
+			docDict[(entry['id'])].append(computeScore(entry['text'], i))
+	#print(len(docDict))
+	#pp.pprint(json.dumps(docDict))
+	print(len(docDict))
+	with open('testingSet.txt', 'w') as o:
+		o.write(json.dumps(docDict))
+		
+processForPrediction()
