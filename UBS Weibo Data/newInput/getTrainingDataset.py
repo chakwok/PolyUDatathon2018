@@ -94,4 +94,85 @@ def generateCatWords():
 
 generateCatWords()
 
+with open('temp.txt', 'w') as oo:
+	for ele in trainingData:
+		oo.write("{},\n".format(ele))
 
+def getAllUniqueWords():
+	uniqueWords = []
+	for entry in trainingData: 
+		words = json.dumps(entry["text"])
+		words = re.findall(re.compile(r'\w+'), words)
+		for word in words: 
+			if (word not in uniqueWords):
+				uniqueWords.append(word)
+	#print(len(uniqueWords))
+	#uniqueWords.remove(r'\ud83e')
+	#uniqueWords.remove(r'\udd23')
+	#uniqueWords.remove(r'\ud83d')
+	return uniqueWords
+
+
+getAllUniqueWords()
+
+with open('temp2.txt', 'w') as ooo:
+	for ele in getAllUniqueWords():
+		ooo.write("{},\n".format(ele))
+
+
+
+def computeIdfs():
+	Idfs = {} 
+	count = 0
+	for word in getAllUniqueWords():
+		print("computing the tfidf for {:d}th word: {}".format(count, word))
+		idf = computeIdf(word)
+		Idfs[word] = idf
+		count += 1 
+	return Idfs
+	
+def computeIdf(word): 
+	print(word)
+	count = 0 
+	
+	for entry in trainingData: 
+		#print(word)
+		#print(entry['text'])
+		if (re.search(word, entry['text']) != None):
+			count += 1 
+
+	print(count)
+	if (count == 0 ):
+		count = 1
+	
+	idf = math.log2(NumPosts / count)
+	
+	return idf
+
+def computeTfIdf(): 
+	Idfs = computeIdfs()
+	with open('tfIdfs.json', 'w') as o:
+		o.write('[')
+		for i in range(0, 13): 
+			filename = 'category{:d}words.txt'.format(i)
+			#filenameWrite = 'tfidf{:d}.txt'.format(i)
+
+			with open(filename, 'r') as f:
+				tfIdfs = {}
+				words = f.readline()
+				words = re.findall(re.compile(r'\w+'), words)
+				for word in words: 
+					if word not in tfIdfs:
+						tfIdfs[word] = 1 
+					else:
+						tfIdfs[word] += 1 
+
+				for word in words:
+						tfIdfs[word] = tfIdfs[word] * Idfs[word]
+
+				tfIdfs['catId'] = str(i)
+				o.write('{},'.format(json.dumps(tfIdfs)))
+		o.write(']')
+
+
+computeTfIdf()
