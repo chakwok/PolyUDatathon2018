@@ -18,3 +18,4 @@ with open('Oneline_Data1.json', 'w') as o:
 	for entry in List:
 		o.write("{}, ".format(entry))
 	o.write(']')
+	print(len(List))
