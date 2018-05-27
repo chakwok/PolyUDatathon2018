@@ -40,8 +40,8 @@ with open('../weibo/train_label.txt', 'r') as f:
 	#print((trainingSids))
 	NumPosts = count
 
-	# for i in range(0, 13): 
-	# 	print("Category {:d}'s count: {:d}\n".format(i, len(categoryToSIDs[i])))
+	for i in range(0, 13): 
+		print("Category {:d}'s count: {:d}\n".format(i, len(categoryToSIDs[i])))
 
 def getAllTrainingDataset(): 
 	

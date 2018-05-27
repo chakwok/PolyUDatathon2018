@@ -111,10 +111,21 @@ def calculateDocWeight():
 	#pp.pprint(json.dumps(docDict))
 	with open('output.txt', 'w') as o:
 		o.write(json.dumps(docDict))
+
+	with open('submissionTraining', 'w') as oo: 
+		for key, value in docDict.items():
+			oo.write("{:s}\t\t{:d}\n".format(key, value[0]))
 		
 	
 	#with open('tfIdf.txt', 'r') as f:
 #calculateDocWeight()
+
+def isHashTag(text, word):
+	if(text.find('#') == -1):
+		return False
+	if(text.find(word) < text.find('#',text.find('#'))):
+		return True
+	return False
 		
 def computeScore(text, category):
 	score = 0 
@@ -123,11 +134,22 @@ def computeScore(text, category):
 	tfIdfsList = tfIdfs[category]
 	#print(type(tfIdfsList))
 	for key, value in tfIdfsList.items():
-		if(key in text):
-			score += value * 1
+		occ = text.count(key)
+		if(occ != 0):
+			score += value * occ
+			print("score({}) += value({}) * count({})".format(score, value, occ))
+			if(isHashTag(text, key)):
+				score += value * occ
 	return score
 
 calculateDocWeight()
+
+
+
+
+
+
+
 #print(computeScore(trainingData[0]['text'], 0))
 
 testingData = []
@@ -157,5 +179,6 @@ def processForPrediction():
 	print(len(docDict))
 	with open('testingSet.txt', 'w') as o:
 		o.write(json.dumps(docDict))
-		
+
 processForPrediction()
+
